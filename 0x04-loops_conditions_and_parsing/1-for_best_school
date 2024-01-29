@@ -1,5 +1,5 @@
 #!usr/bin/env bash
-for i in {1..10}
+for _ in {1..10}
 do
-   printf "Best shool $i \n"
+   echo "Best School"
 done
