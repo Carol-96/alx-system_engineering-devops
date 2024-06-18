@@ -1,22 +1,23 @@
 #!/usr/bin/python3
-'''
-    this module contains the function top_ten
-'''
+"""A function that queries the Reddit API and
+prints the titles of the first 10 hot posts
+listed for a given subreddit."""
 import requests
-from sys import argv
 
 
 def top_ten(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        data = response.json()
-        if 'data' in data and 'children' in data['data']:
-            for post in data['data']['children']:
-                print(post['data']['title'])
-        else:
-            print(None)
-    else:
-        print(None)
+    """prints the titles of the first 10 hot posts listed"""
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    params = {
+        "limit": 10
+    }
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+    if response.status_code == 404:
+        print("None")
+        return
+    results = response.json().get("data")
+    [print(c.get("data").get("title")) for c in results.get("children")]
